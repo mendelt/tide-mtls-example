@@ -1,3 +1,3 @@
 # Clean up generated certificates
 
-rm -rf ca client root server
+rm -rf tls_ca client root server
