@@ -10,11 +10,11 @@ echo 01 > root/db/root.crt.srl
 echo 01 > root/db/root.crl.srl
 
     # Request and sign the certificate
-openssl req -new -config root.conf -out root/root.csr -keyout root/private/root.key
-openssl ca -selfsign -config root.conf -in root/root.csr -out root/root.crt -extensions root_ca_ext
+openssl req -new -config conf/root.conf -out root/root.csr -keyout root/private/root.key
+openssl ca -selfsign -config conf/root.conf -in root/root.csr -out root/root.crt -extensions root_ca_ext
 
     # Generate crl
-openssl ca -gencrl -config root.conf -out root/root.crl
+openssl ca -gencrl -config conf/root.conf -out root/root.crl
 
 
 ##### Setup intermediate ca and db
@@ -29,15 +29,15 @@ echo 01 > tls_ca/db/tls_ca.crt.srl
 echo 01 > tls_ca/db/tls_ca.crl.srl
 
     # Request and sign the certificate
-openssl req -new -config tls_ca.conf -out tls_ca/tls_ca.csr -keyout tls_ca/private/tls_ca.key
-openssl ca -config root.conf -in tls_ca/tls_ca.csr -out tls_ca/tls_ca.crt -extensions signing_ca_ext
+openssl req -new -config conf/tls_ca.conf -out tls_ca/tls_ca.csr -keyout tls_ca/private/tls_ca.key
+openssl ca -config conf/root.conf -in tls_ca/tls_ca.csr -out tls_ca/tls_ca.crt -extensions signing_ca_ext
 
-openssl ca -gencrl -config tls_ca.conf -out tls_ca/tls_ca.crl
+openssl ca -gencrl -config conf/tls_ca.conf -out tls_ca/tls_ca.crl
 
 cat tls_ca/tls_ca.crt root/root.crt > tls_ca/tls_ca_chain.pem
 
 
-##### Setup server certificate
+##### Create server certificate
 
 
-##### Setup client certificates
+##### Create client certificates
